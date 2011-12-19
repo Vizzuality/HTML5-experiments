@@ -44,7 +44,7 @@ var svg = d3.select("body").append("svg");
 svg.append("g").attr("id", "states");
 svg.append("g").attr("id", "my_points");
 
-d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20*%20FROM%20us_counties%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=4", function(collection) {
+d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20*%20FROM%20us_states%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=4", function(collection) {
   svg.select("#states")
     .selectAll("path")
       .data(collection.features)
@@ -52,7 +52,7 @@ d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20*%20FROM%20us_cou
     .attr("d", d3.geo.path().projection(xy));
 });
 
-d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20the_geom%20FROM%20us_points%20WHERE%20the_geom%20IS%20NOT%20NULL%20limit%202000&format=geojson&dp=4", function(collection) {
+d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20the_geom%20FROM%20us_points%20WHERE%20the_geom%20IS%20NOT%20NULL%20limit%205000&format=geojson&dp=4", function(collection) {
   svg.select("#my_points")
   .selectAll("circle")
       .data(collection.features)

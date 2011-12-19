@@ -18,14 +18,18 @@ body{
 }
 
 #states path {
-  fill: #111;
-  stroke: #eee;
-  stroke-width:0.4px;
+  fill-opacity:0;
+  stroke: #fff;
+  stroke-width:1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-#my_points circle{
-  fill: #ff0;
-  fill-opacity: .2;
+#counties path{
+  stroke: #ccc;
+  stroke-width:0.2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;  
 }
 
     </style>
@@ -47,25 +51,24 @@ var svg = d3.select("body")
             .on("zoom", redraw))
         .append("g");
 
+svg.append("g").attr("id", "counties");
 svg.append("g").attr("id", "states");
-svg.append("g").attr("id", "my_points");
 
-d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20*%20FROM%20us_states%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=4", function(collection) {
-  svg.select("#states")
+d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20the_geom%20FROM%20us_counties%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=4", function(collection) {
+  svg.select("#counties")
     .selectAll("path")
       .data(collection.features)
     .enter().append("path")
     .attr("d", d3.geo.path().projection(xy));
 
-   d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20the_geom%20FROM%20us_points%20WHERE%20the_geom%20IS%20NOT%20NULL%20limit%204000&format=geojson&dp=4", function(collection) {
-  svg.select("#my_points")
-  .selectAll("circle")
+   d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20*%20FROM%20us_states%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=4", function(collection) {
+  svg.select("#states")
+    .selectAll("path")
       .data(collection.features)
-    .enter().append("circle")
-      .attr("transform", function(d) { return "translate(" + xy(d.geometry.coordinates) + ")"; })
-      .attr("r", 3)
-      });
+    .enter().append("path")
+    .attr("d", d3.geo.path().projection(xy));
    });
+});
 
 function redraw() {
   svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
