@@ -57,7 +57,7 @@ d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20*%20FROM%20us_sta
     .enter().append("path")
     .attr("d", d3.geo.path().projection(xy));
 
-   d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20the_geom%20FROM%20us_points%20WHERE%20the_geom%20IS%20NOT%20NULL%20limit%204000&format=geojson&dp=4", function(collection) {
+   d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20the_geom%20FROM%20us_points%20WHERE%20the_geom%20IS%20NOT%20NULL%20limit%202000&format=geojson&dp=4", function(collection) {
   svg.select("#my_points")
   .selectAll("circle")
       .data(collection.features)
