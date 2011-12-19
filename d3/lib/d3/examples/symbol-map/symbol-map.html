@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>U.S. States</title>
+    <script type="text/javascript" src="../../d3.min.js"></script>
+    <script type="text/javascript" src="../../d3.geo.min.js"></script>
+    <style type="text/css">
+
+svg {
+  width: 2060px;
+  height: 5000px;
+}
+
+#states path, #state-centroids path {
+  fill: #fff;
+  stroke: #A6BDDB;
+  stroke-width:0.5px;
+}
+
+#state-centroids path {
+    fill: red;
+  stroke-width:0;
+
+  fill-opacity: .1;
+}
+
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+// The radius scale for the centroids.
+var r = d3.scale.sqrt()
+    .domain([0, 1e6])
+    .range([0, 10]);
+
+// Our projection.
+var xy = d3.geo.albersUsa();
+
+var svg = d3.select("body").append("svg");
+svg.append("g").attr("id", "states");
+svg.append("g").attr("id", "state-centroids");
+
+d3.json("../data/us-counties.json", function(collection) {
+  svg.select("#states")
+    .selectAll("path")
+      .data(collection.features)
+    .enter().append("path")
+      .attr("d", d3.geo.path().projection(xy));
+});
+
+d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20ST_Buffer(us_points.the_geom,0.5)%20as%20the_geom%20FROM%20us_points%20WHERE%20the_geom%20IS%20NOT%20NULL%20limit%202000&format=geojson&dp=4", function(collection) {
+  svg.select("#state-centroids")
+    .selectAll("path")
+      .data(collection.features)
+    .enter().append("path")
+      .attr("d", d3.geo.path().projection(xy));
+});
+
+    </script>
+  </body>
+</html>
