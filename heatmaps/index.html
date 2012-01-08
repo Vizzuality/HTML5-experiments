@@ -7,59 +7,53 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
         <script type="text/javascript">
-            $(document).ready(function(){
-            var map,
+            $(document).ready(function() {
+                var map,
                 heatmap;
 
-               var myLatlng = new google.maps.LatLng(40.4166909, -3.7003454);
+                var myLatlng = new google.maps.LatLng(40.4166909, -3.7003454);
                 var myOptions = {
-      zoom: 11,
-      center: myLatlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      disableDefaultUI: false,
-      scrollwheel: true,
-      draggable: true,
-      navigationControl: true,
-      mapTypeControl: false,
-      scaleControl: true,
-      disableDoubleClickZoom: false
+                    zoom: 11,
+                    center: myLatlng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    disableDefaultUI: false,
+                    scrollwheel: true,
+                    draggable: true,
+                    navigationControl: true,
+                    mapTypeControl: false,
+                    scaleControl: true,
+                    disableDoubleClickZoom: false
                 };
 
                 map = new google.maps.Map(document.getElementById("map"), myOptions);
-                heatmap = new HeatmapOverlay(map, {"radius":15, "visible":true, "opacity":60});
-                
-                $.get("http://simon.cartodb.com/api/v1/sql/?q=select%20ST_x(geom)%20as%20lng,%20ST_y(geom)%20as%20lat,%20count(*)%20from%20(select%20ST_SnapToGrid(the_geom,0.001)%20as%20geom%20from%20mad_tweets)%20as%20foo%20group%20by%20lng,lat",function(data){
-                        var max = 0;
-                        data.rows.forEach(function(row){
-                            if (row.count > max) {
-                               max = row.count 
-                            }
-                        });
-                    
-                        var testData = {max:max, data:data.rows}    
+                heatmap = new HeatmapOverlay(map, {
+                    "radius": 15,
+                    "visible": true,
+                    "opacity": 60
+                });
+             $.get("http://simon.cartodb.com/api/v1/sql/?q=select%20ST_x(geom)%20as%20lng,%20ST_y(geom)%20as%20lat,%20count(*)%20from%20(select%20ST_SnapToGrid(the_geom,0.001)%20as%20geom%20from%20mad_tweets)%20as%20foo%20group%20by%20lng,lat",
+                function(data) {
+                    var max = 0;
+                    data.rows.forEach(function(row) {
+                        if (row.count > max) {
+                            max = row.count
+                        }
+                    });
 
+                    var testData = {
+                        max: max,
+                        data: data.rows
+                    }
 
-                
-    google.maps.event.addListenerOnce(map, "idle", function(){
-		heatmap.setDataSet(testData);
-	});
-                       
-                       })
-
-// this is important, because if you set the data set too early, the latlng/pixel projection doesn't work
-    
-});
-
-
+                    google.maps.event.addListenerOnce(map, "idle",
+                    function() {
+                        heatmap.setDataSet(testData);
+                    });
+                });
+            });
         </script>
-
-
-
-
     </head>
     <body style="margin:0;">
-        <div id="map" style="width:100%;height:100%;">
-        
-        </div>    
+        <div id="map" style="width:100%;height:100%;"></div>    
     </body>    
 </html>
