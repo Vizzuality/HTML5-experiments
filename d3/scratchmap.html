@@ -17,20 +17,13 @@ body{
     background:#111;
 }
 
-#states path {
+#provincia path {
   fill-opacity:0;
   stroke: #fff;
   stroke-width:1.5px;
   stroke-opacity:0.4;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-#counties path{
-  stroke: #ccc;
-  stroke-width:0.2px;
-  stroke-linecap: round;
-  stroke-linejoin: round;  
 }
 
     </style>
@@ -44,7 +37,7 @@ var r = d3.scale.sqrt()
     .range([0, 10]);
 
 // Our projection.
-var xy = d3.geo.albersUsa();
+var xy = d3.geo.mercator();
 
 var svg = d3.select("body")
         .append("svg")
@@ -52,8 +45,7 @@ var svg = d3.select("body")
             .on("zoom", redraw))
         .append("g");
 
-svg.append("g").attr("id", "counties");
-svg.append("g").attr("id", "states");
+svg.append("g").attr("id", "provincia");
 
 var path = d3.geo.path();
 
@@ -61,21 +53,12 @@ var fill = d3.scale.log()
     .domain([10, 100,2000])
     .range(["yellow", "black", "aqua"]);
 
-d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20*%20FROM%20us_states%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=4", function(collection) {
-  svg.select("#states")
+d3.json("https://madivapro.cartodb.com/api/v2/sql?q=select%20ST_SimplifyPreserveTopology(the_geom%2C1)%20as%20the_geom%2C%20provincia%2C%20codigo_provincia%20from%20provincias&format=geojson&dp=4", function(collection) {
+  svg.select("#provincia")
     .selectAll("path")
       .data(collection.features)
     .enter().append("path")
     .attr("d", path.projection(xy));
-
-    d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20the_geom%20FROM%20us_counties%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=4", function(collection) {
-    svg.select("#counties")
-        .selectAll("path")
-        .data(collection.features)
-        .enter().append("path")
-        .attr("d", path.projection(xy))
-        .attr("fill", function(d) { return fill(path.area(d)); });
-    });
 });
 
 
