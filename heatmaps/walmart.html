@@ -112,7 +112,7 @@
                     "visible": true,
                     "opacity": 60
                 });
-             $.get("http://simon.cartodb.com/api/v1/sql/?q=select%20ST_x(geom)%20as%20lng,%20ST_y(geom)%20as%20lat,%20count(*)%20from%20(select%20ST_SnapToGrid(the_geom,0.01)%20as%20geom%20from%20walmart)%20as%20foo%20group%20by%20lng,lat",
+             $.get("http://simon.cartodb.com/api/v2/sql/?q=select%20ST_x(geom)%20as%20lng,%20ST_y(geom)%20as%20lat,%20count(*)%20from%20(select%20ST_SnapToGrid(the_geom,0.01)%20as%20geom%20from%20walmart)%20as%20foo%20group%20by%20lng,lat",
                 function(data) {
                     var max = 0;
                     data.rows.forEach(function(row) {
