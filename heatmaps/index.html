@@ -13,21 +13,102 @@
 
                 var myLatlng = new google.maps.LatLng(40.4166909, -3.7003454);
                 var myOptions = {
-                    zoom: 11,
-                    center: myLatlng,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    disableDefaultUI: false,
-                    scrollwheel: true,
-                    draggable: true,
-                    navigationControl: true,
-                    mapTypeControl: false,
-                    scaleControl: true,
-                    disableDoubleClickZoom: false
-                };
+                      zoom: 11,
+                      center: myLatlng,
+                      mapTypeId: google.maps.MapTypeId.ROADMAP,
+                      disableDefaultUI: false,
+                      scrollwheel: true,
+                      draggable: true,
+                      navigationControl: true,
+                      mapTypeControl: false,
+                      scaleControl: true,
+                      disableDoubleClickZoom: false,
+                      styles: [{
+                          stylers: [{
+                              saturation: -65
+                          },
+                          {
+                              gamma: 1.52
+                          }]
+                      },
+                      {
+                          featureType: "administrative",
+                          stylers: [{
+                              saturation: -95
+                          },
+                          {
+                              gamma: 2.26
+                          }]
+                      },
+                      {
+                          featureType: "water",
+                          elementType: "labels",
+                          stylers: [{
+                              visibility: "on"
+                          }]
+                      },
+                      {
+                          featureType: "administrative.locality",
+                          stylers: [{
+                              visibility: 'on'
+                          }]
+                      },
+                      {
+                          featureType: "road",
+                          stylers: [{
+                              visibility: "simplified"
+                          },
+                          {
+                              saturation: -99
+                          },
+                          {
+                              gamma: 1.22
+                          }]
+                      },
+                      {
+                          featureType: "poi",
+                          elementType: "labels",
+                          stylers: [{
+                              visibility: "off"
+                          }]
+                      },
+                      {
+                          featureType: "road.arterial",
+                          stylers: [{
+                              visibility: 'off'
+                          }]
+                      },
+                      {
+                          featureType: "road.local",
+                          elementType: "labels",
+                          stylers: [{
+                              visibility: 'off'
+                          }]
+                      },
+                      {
+                          featureType: "transit",
+                          stylers: [{
+                              visibility: 'off'
+                          }]
+                      },
+                      {
+                          featureType: "road",
+                          elementType: "labels",
+                          stylers: [{
+                              visibility: 'off'
+                          }]
+                      },
+                      {
+                          featureType: "poi",
+                          stylers: [{
+                              saturation: -55
+                          }]
+                      }]
+                  };
 
                 map = new google.maps.Map(document.getElementById("map"), myOptions);
                 heatmap = new HeatmapOverlay(map, {
-                    "radius": 15,
+                    "radius": 19,
                     "visible": true,
                     "opacity": 60
                 });
@@ -44,10 +125,14 @@
                         max: max,
                         data: data.rows
                     }
-
+                    
+                    // only set the data once - probably only works in chrome
+                    heatmap.setDataSet(testData);
+                    
+                    // in the docs, but means redrawing points (and reloading all the data) each pan/zoom
                     google.maps.event.addListenerOnce(map, "idle",
                     function() {
-                        heatmap.setDataSet(testData);
+                        //heatmap.setDataSet(testData);
                     });
                 });
             });
