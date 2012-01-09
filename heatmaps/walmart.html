@@ -1,0 +1,144 @@
+<html>
+    <head>
+        <title>CartoDB with HTML5 Canvas heatmap.js</title>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript" src="lib/heatmap.js/src/heatmap.js"></script>
+        <script type="text/javascript" src="lib/heatmap.js/src/heatmap-gmaps.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var map,
+                heatmap;
+
+                var myLatlng = new google.maps.LatLng(42.68243539838623, -123.486328125);
+                var myOptions = {
+                      zoom: 4,
+                      center: myLatlng,
+                      mapTypeId: google.maps.MapTypeId.ROADMAP,
+                      disableDefaultUI: false,
+                      scrollwheel: true,
+                      draggable: true,
+                      navigationControl: true,
+                      mapTypeControl: false,
+                      scaleControl: true,
+                      disableDoubleClickZoom: false,
+                      styles: [{
+                          stylers: [{
+                              saturation: -65
+                          },
+                          {
+                              gamma: 1.52
+                          }]
+                      },
+                      {
+                          featureType: "administrative",
+                          stylers: [{
+                              saturation: -95
+                          },
+                          {
+                              gamma: 2.26
+                          }]
+                      },
+                      {
+                          featureType: "water",
+                          elementType: "labels",
+                          stylers: [{
+                              visibility: "on"
+                          }]
+                      },
+                      {
+                          featureType: "administrative.locality",
+                          stylers: [{
+                              visibility: 'on'
+                          }]
+                      },
+                      {
+                          featureType: "road",
+                          stylers: [{
+                              visibility: "simplified"
+                          },
+                          {
+                              saturation: -99
+                          },
+                          {
+                              gamma: 1.22
+                          }]
+                      },
+                      {
+                          featureType: "poi",
+                          elementType: "labels",
+                          stylers: [{
+                              visibility: "off"
+                          }]
+                      },
+                      {
+                          featureType: "road.arterial",
+                          stylers: [{
+                              visibility: 'off'
+                          }]
+                      },
+                      {
+                          featureType: "road.local",
+                          elementType: "labels",
+                          stylers: [{
+                              visibility: 'off'
+                          }]
+                      },
+                      {
+                          featureType: "transit",
+                          stylers: [{
+                              visibility: 'off'
+                          }]
+                      },
+                      {
+                          featureType: "road",
+                          elementType: "labels",
+                          stylers: [{
+                              visibility: 'off'
+                          }]
+                      },
+                      {
+                          featureType: "poi",
+                          stylers: [{
+                              saturation: -55
+                          }]
+                      }]
+                  };
+
+                map = new google.maps.Map(document.getElementById("map"), myOptions);
+                heatmap = new HeatmapOverlay(map, {
+                    "radius": 12,
+                    "visible": true,
+                    "opacity": 60
+                });
+             $.get("http://simon.cartodb.com/api/v1/sql/?q=select%20ST_x(geom)%20as%20lng,%20ST_y(geom)%20as%20lat,%20count(*)%20from%20(select%20ST_SnapToGrid(the_geom,0.01)%20as%20geom%20from%20walmart)%20as%20foo%20group%20by%20lng,lat",
+                function(data) {
+                    var max = 0;
+                    data.rows.forEach(function(row) {
+                        if (row.count > max) {
+                            max = row.count
+                        }
+                    });
+
+                    var testData = {
+                        max: max,
+                        data: data.rows
+                    }
+                    
+                    // only set the data once - probably only works in chrome
+                    heatmap.setDataSet(testData);
+                    
+                    // in the docs, but means redrawing points (and reloading all the data) each pan/zoom
+                    google.maps.event.addListenerOnce(map, "idle",
+                    function() {
+                        //heatmap.setDataSet(testData);
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body style="margin:0;">
+        <div id="map" style="width:100%;height:100%;"></div>    
+    </body>    
+</html>
