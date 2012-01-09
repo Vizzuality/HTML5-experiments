@@ -11,5 +11,5 @@ d3
 
 heatmap.js
 --
-* [38k Madrid tweets heatmap](http://vizzuality.github.com/HTML5-experiments/heatmaps/madrid_tweets.html)
-* [East Coast USA Walmarts](http://vizzuality.github.com/HTML5-experiments/heatmaps/walmart.html)
+* [38k Madrid tweets](http://vizzuality.github.com/HTML5-experiments/heatmaps/madrid_tweets.html)
+* [East coast USA Walmart locations](http://vizzuality.github.com/HTML5-experiments/heatmaps/walmart.html)
