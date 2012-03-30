@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <title>Using CartoDB with Leaflet</title>
+  <link rel="shortcut icon" href="http://cartodb.com/favicon/favicon_32x32.ico" />
+  <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
+  <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.ie.css" />
+  <link  href="css/cartodb.css" rel="stylesheet" type="text/css">
+  <link  href="css/style.css" rel="stylesheet" type="text/css">
+
+  <script type="text/javascript">
+    
+
+   /**
+    */
+
+    function updater(table, interval, ready) {
+        var CARTODB_URL = 'https://viz2.cartodb.com/api/v2/sql?q='
+        var polygons_url = 'https://viz2.cartodb.com/api/v2/sql?q=select * from " + table + "&format=geojson';
+        var last_cartodb_id = 0;
+
+        var fetch = function() {
+          var url = CARTODB_URL + "select * from " + table + " where cartodb_id > " + last_cartodb_id + "&format=geojson";
+          $.getJSON(url, function(data) {
+              var polygons = [];
+              var geojson = new L.GeoJSON();
+              var features = data.features;
+              for (var i = 0, len = features.length; i < len; ++i) {
+                var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
+                // polygon options
+                // see available http://leaflet.cloudmade.com/reference.html#path
+                /*geo.setStyle({
+                  fillColor: '#FFF',
+                  fillOpacity: 1.0
+                });*/
+                polygons.push(geo);
+                last_cartodb_id = Math.max(last_cartodb_id, features[i].properties.cartodb_id);
+
+              }
+              ready(polygons);
+          });
+        }
+        setInterval(fetch, interval || 1000);
+    }
+
+    /**
+     * creates the map
+     */
+    function init_map(polygons) {
+      var map = new L.Map('map_canvas').setView(new L.LatLng(40.4166909, -3.7003454), 2);
+      var tiles = new L.TileLayer('http://b.tiles.mapbox.com/v3/mapbox.mapbox-light/{z}/{x}/{y}.png64', {
+attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, map by <a href="http://mapbox.com">mapbox</a>',
+    maxZoom: 18
+});
+      map.addLayer(tiles)
+      updater('testing_rt', 1000, function(polygons) {
+          for(var i = 0; i < polygons.length; ++i) {
+              map.addLayer(polygons[i]);
+          }
+      });
+    }
+
+    
+    /**
+     * init the app
+     */
+    function initialize() {
+       init_map();
+    }
+
+  </script>
+</head>
+<body onload="initialize()">
+
+  <div class="wrapper">
+      <div id="map_canvas"></div>
+      <a class="cartodb_logo" href="http://www.cartodb.com" target="_blank">CartoDB</a>
+  </div>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
+</body>
+</html>

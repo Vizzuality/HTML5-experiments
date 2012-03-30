@@ -1,0 +1,150 @@
+#embalses_saleiva {
+  line-color:#FFFFFF;
+  line-width:0;
+  line-opacity:1;
+  polygon-opacity:1;
+  polygon-fill:#000000;
+}
+#embalses_saleiva [reservas<=104.17] {
+  polygon-opacity:.7;
+}
+#embalses_saleiva [reservas<=88.37] {
+  polygon-opacity:.6;
+}
+#embalses_saleiva [reservas<=77.78] {
+  polygon-opacity:.5;
+}
+#embalses_saleiva [reservas<=66.67] {
+  polygon-opacity:.4;
+}
+#embalses_saleiva [reservas<=51.11] {
+  polygon-opacity:.3;
+}
+#embalses_saleiva [reservas<=38.61] {
+ polygon-opacity:.2;
+}
+
+///////////////////////////////////////////////////
+
+#estado_embalses_provincias {
+   line-color:#FFFFFF;
+    line-width:.6;
+    line-opacity:1;
+    polygon-opacity:.7;
+    }
+#estado_embalses_provincias [embal_percen<=100] {
+   polygon-fill:#FFFFB2;
+ }
+#estado_embalses_provincias [embal_percen<=78.47] {
+   polygon-fill:#FED976;
+ }
+#estado_embalses_provincias [embal_percen<=74.77] {
+   polygon-fill:#FEB24C;
+ }
+#estado_embalses_provincias [embal_percen<=66.32] {
+   polygon-fill:#FD8D3C;
+ }
+#estado_embalses_provincias [embal_percen<=59.29] {
+   polygon-fill:#FC4E2A;
+ }
+#estado_embalses_provincias [embal_percen<=53.48] {
+   polygon-fill:#E31A1C;
+ }
+#estado_embalses_provincias [embal_percen<=45.17] {
+   polygon-fill:#B10026;
+ }
+
+///AZUL
+
+ #embalses_saleiva_dots {
+     marker-fill:#FFFFFF;
+     marker-width: 3;
+     marker-line-width:.2;
+     marker-line-color:#000000;
+     marker-opacity:.25;
+     marker-line-opacity:1;
+     marker-placement:point;
+     marker-type:ellipse;
+     marker-allow-overlap:false;
+   }
+#embalses_saleiva_dots [reservas<=104.17] {
+      marker-width:10;
+    }
+#embalses_saleiva_dots [reservas<=90] {
+      marker-width:8;
+    }
+#embalses_saleiva_dots [reservas<=80.53] {
+      marker-width:6;
+    }
+#embalses_saleiva_dots [reservas<=72.73] {
+      marker-width:4;
+    }
+#embalses_saleiva_dots [reservas<=60.47] {
+      marker-width:3;
+    }
+#embalses_saleiva_dots [reservas<=47.77] {
+      marker-width:2;
+    }
+#embalses_saleiva_dots [reservas<=35] {
+      marker-width:2;
+    }
+
+
+#estado_embalses_provincias {
+   line-color:#FFFFFF;
+    line-width:.6;
+    line-opacity:1;
+    polygon-opacity:.7;
+    }
+#estado_embalses_provincias [ratio_embalsada<=1] {
+   polygon-fill:#253494}
+#estado_embalses_provincias [ratio_embalsada<=0.209250343878955] {
+   polygon-fill:#2C7FB8}
+#estado_embalses_provincias [ratio_embalsada<=0.127407152682256] {
+   polygon-fill:#41B6C4}
+#estado_embalses_provincias [ratio_embalsada<=0.0727303988995874] {
+   polygon-fill:#7FCDBB}
+#estado_embalses_provincias [ratio_embalsada<=0.0369669876203576] {
+   polygon-fill:#C7E9B4}
+#estado_embalses_provincias [ratio_embalsada<=0.016334250343879] {
+   polygon-fill:#FFFFCC}
+
+
+
+
+ //////////////////////////////////////////////////
+
+ #embalses_saleiva_dots {
+  marker-fill:#000000;
+  marker-width: 3;
+  marker-line-width:0;
+  marker-opacity:.6;
+  marker-line-opacity:1;
+  marker-placement:point;
+  marker-type:ellipse;
+  marker-allow-overlap:false;
+}
+
+
+#embalses_saleiva_dots [reservas<=104.17] {
+   marker-width:10;
+ }
+#embalses_saleiva_dots [reservas<=90] {
+   marker-width:8;
+ }
+#embalses_saleiva_dots [reservas<=80.53] {
+   marker-width:6;
+ }
+#embalses_saleiva_dots [reservas<=72.73] {
+   marker-width:4;
+ }
+#embalses_saleiva_dots [reservas<=60.47] {
+   marker-width:3;
+ }
+#embalses_saleiva_dots [reservas<=47.77] {
+   marker-width:2;
+ }
+#embalses_saleiva_dots [reservas<=35] {
+   marker-width:2;
+ }
+
