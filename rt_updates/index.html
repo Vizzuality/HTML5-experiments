@@ -19,46 +19,72 @@
     function updater(table, interval, ready) {
         var CARTODB_URL = 'https://viz2.cartodb.com/api/v2/sql?q='
         var polygons_url = 'https://viz2.cartodb.com/api/v2/sql?q=select * from " + table + "&format=geojson';
-        var last_cartodb_id = 0;
 
+        var last_time = '2010-03-30';
         var fetch = function() {
-          var url = CARTODB_URL + "select * from " + table + " where cartodb_id > " + last_cartodb_id + "&format=geojson";
+          var url = CARTODB_URL + "select * from " + table + " order by cartodb_id desc limit 1&format=geojson";
           $.getJSON(url, function(data) {
+              var bounds = null;
               var polygons = [];
               var geojson = new L.GeoJSON();
               var features = data.features;
+              var geo = null;
               for (var i = 0, len = features.length; i < len; ++i) {
-                var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
-                // polygon options
-                // see available http://leaflet.cloudmade.com/reference.html#path
-                /*geo.setStyle({
-                  fillColor: '#FFF',
-                  fillOpacity: 1.0
-                });*/
-                polygons.push(geo);
-                last_cartodb_id = Math.max(last_cartodb_id, features[i].properties.cartodb_id);
-
+                geo = L.GeoJSON.geometryToLayer(features[i].geometry);
+                var pmin = features[i].geometry.coordinates[0][0][0];
+                var pmax = features[i].geometry.coordinates[0][0][2];
+                var southWest = new L.LatLng(pmin[1], pmin[0]);
+                var northEast = new L.LatLng(pmax[1], pmax[0]);
+                bounds = new L.LatLngBounds(southWest, northEast);
+                last_time = features[i].properties.created_at;
+                console.log(features[i].properties.osm_id);
               }
-              ready(polygons);
+              if(bounds)
+                ready(bounds, geo);
           });
         }
-        setInterval(fetch, interval || 1000);
+        setInterval(fetch, interval*1000 || 1000);
     }
 
     /**
      * creates the map
      */
     function init_map(polygons) {
+
       var map = new L.Map('map_canvas').setView(new L.LatLng(40.4166909, -3.7003454), 3);
-      var tiles = new L.TileLayer('http://b.tiles.mapbox.com/v3/mapbox.mapbox-light/{z}/{x}/{y}.png64', {
+      var tiles = new L.TileLayer('http://a.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png64', {
 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, map by <a href="http://mapbox.com">mapbox</a>',
     maxZoom: 18
 });
       map.addLayer(tiles)
-      updater('testing_rt', 1000, function(polygons) {
-          for(var i = 0; i < polygons.length; ++i) {
-              map.addLayer(polygons[i]);
-          }
+
+  
+      var google_map;
+      var myOptions = {
+        zoom: 8,
+        center: new google.maps.LatLng(-34.397, 150.644),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      google_map = new google.maps.Map(document.getElementById('google_maps'), myOptions);
+
+      //google.maps.event.addDomListener(window, 'load', initialize);
+    
+      var current = null;
+      updater('osm_updates', 1, function(bounds, geo) {
+          map.fitBounds(bounds);
+          if(current)
+            map.removeLayer(current);
+          current = geo;
+          map.addLayer(geo);
+          var sw = bounds.getSouthWest();
+          var ne = bounds.getNorthEast();
+          console.log(sw.lat, sw.lng, ne.lat, ne.lng);
+          google_map.fitBounds( 
+            new google.maps.LatLngBounds(
+              new google.maps.LatLng(sw.lat, sw.lng),
+              new google.maps.LatLng(ne.lat, ne.lng)
+            )
+          );
       });
     }
 
@@ -78,6 +104,8 @@ attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</
       <div id="map_canvas"></div>
       <a class="cartodb_logo" href="http://www.cartodb.com" target="_blank">CartoDB</a>
   </div>
+  <div id="google_maps"></div>
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
 </body>

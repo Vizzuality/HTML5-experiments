@@ -1,7 +1,13 @@
 body{}
 
 div.wrapper{
-  width: 100%;
+  width: 49%;
+  height: 100%;
+  float: left;
+  padding-right: 5px;
+}
+#google_maps {
+  width: 50%;
   height: 100%;
 }
 
