@@ -3,10 +3,16 @@ body {
   background-color: #EEE;
 }
 
+h1, h2, h3, .label-info{
+  font-family: 'Lato', sans-serif;
+}
+
 .box header {
   margin-top: 30px;
   padding: 30px;
-  border-bottom: 1px solid #CCC;
+  border-bottom: 1px solid #fff;
+  color:white;
+  background:#222222;
 }
 .box header h1 {
   margin-bottom: 10px;

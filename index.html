@@ -3,16 +3,18 @@
 <html lang="en">
   <head>
     <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
     <link href="css/style.css" rel="stylesheet">
+
   </head>
 
-  <body onload="init();">
+  <body onload="init();" style="background:url('img/grey-carto-back.jpg');">
     <div class="container">
       <div class="box">
 
         <header>
           <h1>Vizzuality HTML5 lab</h1>
-          <h3>Some examples using <a href="http://cartodb.com">CartoDB</a>. You can find the code in <a href="https://github.com/Vizzuality/HTML5-experiments">github</a></h3>
+          <h3>Some fun examples using <a href="http://cartodb.com">CartoDB</a>. You can find the code on <a href="https://github.com/Vizzuality/HTML5-experiments">Github</a></h3>
         </header>
         <div id="examples">
         </div>
@@ -40,6 +42,61 @@
   <script src="https://raw.github.com/janl/mustache.js/master/mustache.js"></script>
   <script>
     var articles = [
+     { 
+        title: 'Sketch rendering',
+        img: "img/sketchy.png",
+        description: 'use <a href="https://github.com/vizzuality/VECNIK">VECNIK</a> to render a sketchy like map on client side with canvas',
+        link: 'http://vizzuality.github.com/VECNIK/examples/custom_renderer.html#3/13.84/11.75',
+        labels: [
+          { name: 'VECNIK' },
+          { name: 'SQL-API'},
+          { name: 'Modestmaps'}
+        ]
+      },
+      { 
+         title: 'Bic rendering',
+         img: "img/bic.jpg",
+         description: 'another take on <a href="https://github.com/vizzuality/VECNIK">VECNIK</a> to render a sketchy map, this time with blue bic',
+         link: 'http://vizzuality.github.com/VECNIK/examples/ny_map.html#13/40.7251/-73.9585',
+         labels: [
+           { name: 'VECNIK' },
+           { name: 'SQL-API'},
+           { name: 'Modestmaps'}
+         ]
+       },      
+      { 
+        title: 'Style animation',
+        img: "img/carto_anim.png",
+        description: 'use <a href="https://github.com/vizzuality/VECNIK">VECNIK</a> to do animation using <a href="https://github.com/mapbox/carto">Carto</a>',
+        link: 'http://vizzuality.github.com/VECNIK/examples/ny_districts_animated.html#12/40.6697/-73.9522',
+        labels: [
+          { name: 'VECNIK' },
+          { name: 'SQL-API'},
+          { name: 'Carto'}
+        ]
+      },
+      { 
+        title: 'Live style editor',
+        img: "img/carto_osm.png",
+        description: 'London OSM roads rendered with <a href="https://github.com/vizzuality/VECNIK">VECNIK</a> with <a href="https://github.com/mapbox/carto">Carto</a> style live edit',
+        link: 'http://vizzuality.github.com/VECNIK/examples/osm_london.html#14/51.5072/-0.1192',
+        labels: [
+          { name: 'VECNIK' },
+          { name: 'SQL-API'},
+          { name: 'Carto'}
+        ]
+      },    
+      { 
+        title: 'NY Bus animation',
+        img: "img/ny_bus.png",
+        description: 'animation of a bus line in NY using D3 and SVG. Use modestmaps as map library',
+        link: 'ny_bus_animation/',
+        labels: [
+          { name: 'D3' },
+          { name: 'SQL-API'},
+          { name: 'Modestmaps'}
+        ]
+      },
       { 
         title: 'US county area with 3 color scale',
         img: "img/d3_1.png",
@@ -104,53 +161,6 @@
           { name: 'SQL-API'}
         ]
       },
-      { 
-        title: 'NY Bus animation',
-        img: "img/ny_bus.png",
-        description: 'animation of a bus line in NY using D3 and SVG. Use modestmaps as map library',
-        link: 'ny_bus_animation/',
-        labels: [
-          { name: 'D3' },
-          { name: 'SQL-API'},
-          { name: 'Modestmaps'}
-        ]
-      },
-      { 
-        title: 'Skecthy map rendering',
-        img: "img/sketchy.png",
-        description: 'use <a href="https://github.com/vizzuality/VECNIK">VECNIK</a> to render a sketchy like map on client side with canvas',
-        link: 'http://vizzuality.github.com/VECNIK/examples/custom_renderer.html#3/13.84/11.75',
-        labels: [
-          { name: 'VECNIK' },
-          { name: 'SQL-API'},
-          { name: 'Modestmaps'}
-        ]
-      },
-      { 
-        title: 'Carto Style animation',
-        img: "img/carto_anim.png",
-        description: 'use <a href="https://github.com/vizzuality/VECNIK">VECNIK</a> to do animation using <a href="https://github.com/mapbox/carto">Carto</a>',
-        link: 'http://vizzuality.github.com/VECNIK/examples/ny_districts_animated.html#12/40.6697/-73.9522',
-        labels: [
-          { name: 'VECNIK' },
-          { name: 'SQL-API'},
-          { name: 'Carto'}
-        ]
-      },
-      { 
-        title: 'OSM London Roads',
-        img: "img/carto_osm.png",
-        description: 'OSM roads rendered with <a href="https://github.com/vizzuality/VECNIK">VECNIK</a> with <a href="https://github.com/mapbox/carto">Carto</a> style live edit',
-        link: 'http://vizzuality.github.com/VECNIK/examples/osm_london.html#14/51.5072/-0.1192',
-        labels: [
-          { name: 'VECNIK' },
-          { name: 'SQL-API'},
-          { name: 'Carto'}
-        ]
-      },
-
-
-      
     ]
     function init() {
       var example_template = document.getElementById('example-tmpl').innerHTML;
