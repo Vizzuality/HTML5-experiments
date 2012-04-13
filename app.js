@@ -1,4 +1,16 @@
     var articles = [
+    { 
+       title: 'Earthquakes in time',
+       img: "img/earthquake.png",
+       description: 'Uses D3 to animate earthquake occurrence over time',
+       link: 'earthquakes/index.html',
+       labels: [
+         { name: 'D3' },
+         { name: 'Backbone.js'},
+         { name: 'Modestmaps'}
+       ]
+     },
+
      { 
         title: 'Sketch rendering',
         img: "img/sketchy.png",
