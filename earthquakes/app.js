@@ -157,10 +157,10 @@ function initMap() {
     var setup_layer = function() {
       var f = new Overlay(map, earthquakes);
       setInterval(function() {
-        f.time += 100000; //1000 seconds
+        f.time += 300000; 
         f.draw(map);
         document.getElementById('date').innerHTML = new Date(f.time).toString().replace(/GMT.*/g,'');
-      },10);
+      },20);
     };
 
     // fetch all data
