@@ -137,7 +137,7 @@ function initMap() {
 
     // create map
     var src = document.getElementById('src');
-    template = 'http://b.tiles.mapbox.com/v3/mapbox.mapbox-light/{Z}/{X}/{Y}.png64';
+    template = 'https://maps.nlp.nokia.com/maptiler/v2/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?lg=eng&token=61YWYROufLu_f8ylE0vn0Q&app_id=qIWDkliFCtLntLma2e6O';
     var subdomains = [ '', 'a.', 'b.', 'c.' ];
     var provider = new MM.TemplatedLayer(template, subdomains);
 

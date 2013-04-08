@@ -1,5 +1,5 @@
 
-var CartoDB = Backbone.CartoDB({ user: '2read' });
+var CartoDB = Backbone.CartoDB({ user: 'viz2' });
 
 var EarthQuake = CartoDB.CartoDBModel.extend({
 
@@ -69,7 +69,7 @@ var EarthQuakes = CartoDB.CartoDBCollection.extend({
 
 
   model: EarthQuake, 
-  table: 'earthquakes', //public table
+  table: 'earthquaked3', //public table
   columns: {
       'timestamp': 'date_utc',
       'position': 'the_geom',
@@ -147,7 +147,7 @@ function initMap() {
 
     // create map
     var src = document.getElementById('src');
-    template = 'http://b.tiles.mapbox.com/v3/mapbox.mapbox-light/{Z}/{X}/{Y}.png64';
+    template = 'https://maps.nlp.nokia.com/maptiler/v2/maptile/newest/normal.day/{Z}/{X}/{Y}/256/png8?lg=eng&token=61YWYROufLu_f8ylE0vn0Q&app_id=qIWDkliFCtLntLma2e6O';
     var subdomains = [ '', 'a.', 'b.', 'c.' ];
     var provider = new MM.TemplatedLayer(template, subdomains);
 
