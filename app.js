@@ -159,6 +159,16 @@
           { name: 'Canvas' },
           { name: 'SQL-API'}
         ]
+      },
+      {
+        title: '2013 NBA Finals',
+        img: "img/tweets_nba.png",
+        description: '70k geospatially tagged tweets during Playoff Finals',
+        link: 'https://github.com/Vizzuality/tweets_nba/tree/develop',
+        labels: [
+          { name: 'Canvas' },
+          { name: 'SQL-API'}
+        ]
       }
     ];
 
